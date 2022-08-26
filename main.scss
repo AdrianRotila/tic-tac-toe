@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Varela+Round&display=swap');
+
+
+$game-font: 'Varela Round', sans-serif;
+$title-font: 'Rubik Dirt', cursive;
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+
+body {
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    .title {
+        font-family: $title-font;
+        font-weight: lighter;
+        font-size: 50px;
+        opacity: 0.5;
+       
+    }
+    
+    .grid{
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+        align-items: center;
+        font-family: $game-font;
+        font-size: 60px;
+        font-weight: bold;
+    
+        &__cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;   
+            padding: 40px;
+            cursor: pointer;
+
+            &--text {
+                opacity: 1;
+                
+            }
+
+            &--text:hover {
+                opacity: 0.2;
+            }
+        }
+
+        &__cell:nth-child(-n + 3){
+            border-top: none;
+        }
+    
+        &__cell:nth-child(3n){
+            border-right: none;
+        }
+    
+        &__cell:nth-child(3n - 2){
+            border-left: none;
+        }
+    
+        &__cell:nth-child(n + 7){
+            border-bottom: none;
+        }    
+    }
+}
+
+@media screen and (min-width: 768px) { 
+    body{
+        height: 90vh;
+
+        .title {
+            font-size: 75px; 
+        }
+        .grid{ 
+            font-size: 90px;
+            font-weight: bold;
+        
+            &__cell {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    }
+    
+}
+
+
+
+
