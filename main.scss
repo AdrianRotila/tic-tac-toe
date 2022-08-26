@@ -11,7 +11,8 @@ $title-font: 'Rubik Dirt', cursive;
     
 }
 
-body {
+// Main Content
+main {
     width: 100vw;
     height: 80vh;
     display: flex;
@@ -75,6 +76,55 @@ body {
         }    
     }
 }
+
+// Winning message
+.message {
+    display: none;
+    background-color: black;
+    opacity: 0.9;
+    transition: 2s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: $title-font;
+    font-size: 2rem;
+
+    &--button {
+        border-radius: 20px;
+        font-size: 15px;
+        font-family: $game-font;
+        height: 2.8rem;
+        width: 9rem;
+        cursor: pointer;
+        border: none;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    &--button:active {
+        transform: scale(0.93);
+    }
+
+    &--button:hover {
+        background-color: black;
+        color: white;
+        border: 3px solid white;
+        font-size: 15px;
+    }
+}
+
+// Show winning message when win
+.message.show {
+    display: flex;
+}
+
+
 
 @media screen and (min-width: 768px) { 
     body{
