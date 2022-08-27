@@ -6,11 +6,10 @@ const endWindow = document.querySelector(".message");
 const endMesaage = document.querySelector(".message--text");
 const resetButton = document.querySelector(".message--button");
 
-// Empty array to store keep track of the board
 let gridStoredValues = ["", "", "", "", "", "", "", "", ""];
 
-const X_CLASS = "x";
-const O_CLASS = "o";
+const X_CLASS = "X";
+const O_CLASS = "O";
 let currentPlayer = "X";
 
 const winConditions = [
@@ -24,87 +23,104 @@ const winConditions = [
     [0, 4, 8],
 ];
 
-
-
-// Update the Array with the value inserted in a cell
-const updateBoard = (index) => {
+// Cells Value and Cells Classes Handling
+const updateBoard = (clickedCell, index) => {
     gridStoredValues[index] = currentPlayer;
+    clickedCell.innerHTML = currentPlayer;
+    clickedCell.classList.add(currentPlayer);
 }
 
-// Place the correct mark inside the grid element & change the current player
-const changeTurn = (clickedCell) => {
+// Turn Swapping
+const changeTurn = () => {
     if(currentPlayer === "X") {
-        grid.classList.add(O_CLASS);
-        clickedCell.innerHTML = currentPlayer;
-        clickedCell.classList.add(O_CLASS);
+        gridClassSwap();
         currentPlayer = "O";
     } else {
-        grid.classList.remove(O_CLASS);
-        grid.classList.add(X_CLASS);
-        clickedCell.innerHTML = currentPlayer;
-        clickedCell.classList.add(X_CLASS);
+        gridClassSwap();
         currentPlayer = "X";
     }
 }
 
+// Winning Message
 const winningMessage = (winner) => {
     endMesaage.innerHTML = `Player ${winner} Wins !`;
     endWindow.classList.add("show");
 }
 
+// Tie Message
 const tieMessage = () => {
-    endMesaage.innerHTML = `It's a tie !`
+    endMesaage.innerHTML = `It's a Tie !`
+    endWindow.classList.add("show");
 }
 
+// Result Check
 const resultCheck = () => {
-    for (let index = 0; index < winConditions.length; index++) {
+    for (index in winConditions) {
         const winSubArray = winConditions[index];
         const first = gridStoredValues[winSubArray[0]];
         const second = gridStoredValues[winSubArray[1]];
         const third = gridStoredValues[winSubArray[2]];
-
-        // If empty continue
+        // Check if empty
         if(first === "" || second === "" || third === "") {
             continue;
         }
+        // Win & Message
         if(first === second && second === third) {
-            // win message
             winningMessage(first);
             break;
         }
-    }
-    
-    // Tie check
-    if(!gridStoredValues.includes("")){
-        tieMessage();
+        // Tie & Message
+        if(!gridStoredValues.includes("")){
+            tieMessage();
+        }
     }
 }
 
-// Clear Board Function
-const clearBoard = () => {
-    resetButton.addEventListener("click", () => {
-        gridStoredValues = ["", "", "", "", "", "", "", "", ""];
-        currentPlayer = "X";
-
-    })
+// Swap Hover Turn
+const gridClassSwap = () => {
+    if(grid.classList.contains("O")) {
+        grid.classList.remove(O_CLASS);
+        grid.classList.add(X_CLASS);
+    } else {
+        grid.classList.remove(X_CLASS);
+        grid.classList.add(O_CLASS);
+    }
 }
 
-// Main funtction that takes only one click/cell
-cells.forEach((clickedCell, index) => {
-    clickedCell.addEventListener("click", () => {
-            
-        // Populate the array with values
-        updateBoard(index);
-            
-        // Display and change the turn
-        changeTurn(clickedCell);
-    
-        // Check if there is a winner
+// Restore Cells Value and Classes
+const resetCellsData = (cell) => {
+    cell.innerHTML = "";
+    cell.classList.remove(X_CLASS);
+    cell.classList.remove(O_CLASS);
+}
+
+// Clear the Board
+resetButton.addEventListener("click", () => {
+    gridStoredValues = ["", "", "", "", "", "", "", "", ""];
+    currentPlayer = "X";
+
+    gridClassSwap();
+    cells.forEach((cell) => resetCellsData(cell));
+
+    endWindow.classList.remove("show")
+})
+
+const handleCommand = (clickedCell, index) => {
+    if(clickedCell.innerHTML === ""){
+        updateBoard(clickedCell, index);           
+        changeTurn();   
         resultCheck(); 
-        
-        // Board Reset
-        clearBoard();
-        }, {once: true})
-    });
+    }   
+}
+
+const gameStart = () => {
+    grid.classList.add(X_CLASS);
+    cells.forEach((clickedCell, index) => 
+        clickedCell.addEventListener("click", () => handleCommand(clickedCell, index)));
+}
+
+gameStart();
+
+
 
 
