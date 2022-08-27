@@ -82,12 +82,12 @@ main {
         }
     }
 
-    .grid.x .grid__cell:not(.x):not(.o):hover::before {
+    .grid.X .grid__cell:not(.x):not(.o):hover::before {
         content: "X";
         color: lightgrey;
     }
 
-    .grid.o .grid__cell:not(.x):not(.o):hover::before {
+    .grid.O .grid__cell:not(.x):not(.o):hover::before {
         content: "O";
         color: lightgrey;
     }
@@ -120,15 +120,15 @@ main {
         }
         
         &__button {
-            
             background-color: black;
             color: white;
+            border: solid 1px black;
             font-family: $game-font;
             width: 160px;
             height: 30px;
             border-radius: 25px;
-           
             font-size: 13px; 
+            font-weight: bold;
         }
 
         &__button:active {
@@ -138,8 +138,6 @@ main {
         &__button:hover {
             background-color: white;
             color: black;
-            font-weight: bold;
-            border: solid 1px black;
         }
     }
       

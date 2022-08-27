@@ -5,6 +5,7 @@ const button = document.querySelector(".reset");
 const endWindow = document.querySelector(".message");
 const endMesaage = document.querySelector(".message--text");
 const resetButton = document.querySelector(".message--button");
+const trapButton = document.querySelector(".trapdoor__button");
 
 let gridStoredValues = ["", "", "", "", "", "", "", "", ""];
 
@@ -41,16 +42,21 @@ const changeTurn = () => {
     }
 }
 
+// Final window with the result
+const gameOver = () => {
+    endWindow.style.opacity = "0.9";
+    resetButton.innerHTML = "Start Again"
+    endWindow.classList.add("show");
+}
+
 // Winning Message
 const winningMessage = (winner) => {
     endMesaage.innerHTML = `Player ${winner} Wins !`;
-    endWindow.classList.add("show");
 }
 
 // Tie Message
 const tieMessage = () => {
     endMesaage.innerHTML = `It's a Tie !`
-    endWindow.classList.add("show");
 }
 
 // Result Check
@@ -67,16 +73,19 @@ const resultCheck = () => {
         // Win & Message
         if(first === second && second === third) {
             winningMessage(first);
+            gameOver();
             break;
         }
         // Tie & Message
         if(!gridStoredValues.includes("")){
             tieMessage();
+            gameOver();
         }
     }
+    
 }
 
-// Swap Hover Turn
+// Swap Turn Hover 
 const gridClassSwap = () => {
     if(grid.classList.contains("O")) {
         grid.classList.remove(O_CLASS);
@@ -95,16 +104,34 @@ const resetCellsData = (cell) => {
 }
 
 // Clear the Board
-resetButton.addEventListener("click", () => {
+const clearBoard = () => {
     gridStoredValues = ["", "", "", "", "", "", "", "", ""];
     currentPlayer = "X";
-
-    gridClassSwap();
+    
     cells.forEach((cell) => resetCellsData(cell));
 
     endWindow.classList.remove("show")
-})
+    
+    grid.classList.remove(O_CLASS);
+    grid.classList.add(X_CLASS);
+}
 
+// Reset Button
+resetButton.addEventListener("click", () => clearBoard());
+
+// Trap Button
+trapButton.addEventListener("click", () => clearBoard());
+
+// Starting window
+const welcomeWindow = () => {
+    endWindow.style.opacity = "1";
+    endWindow.classList.add("show");
+    endMesaage.innerHTML = "Welcome to My Game"
+    resetButton.innerHTML = "Start Game";
+}
+
+
+// Commands handler
 const handleCommand = (clickedCell, index) => {
     if(clickedCell.innerHTML === ""){
         updateBoard(clickedCell, index);           
@@ -114,7 +141,7 @@ const handleCommand = (clickedCell, index) => {
 }
 
 const gameStart = () => {
-    grid.classList.add(X_CLASS);
+    welcomeWindow();
     cells.forEach((clickedCell, index) => 
         clickedCell.addEventListener("click", () => handleCommand(clickedCell, index)));
 }

@@ -63,11 +63,11 @@ main .grid__cell:nth-child(n+7) {
 main .grid__cell.x, main .grid__cell.o {
   cursor: not-allowed;
 }
-main .grid.x .grid__cell:not(.x):not(.o):hover::before {
+main .grid.X .grid__cell:not(.x):not(.o):hover::before {
   content: "X";
   color: lightgrey;
 }
-main .grid.o .grid__cell:not(.x):not(.o):hover::before {
+main .grid.O .grid__cell:not(.x):not(.o):hover::before {
   content: "O";
   color: lightgrey;
 }
@@ -99,11 +99,13 @@ main .trapdoor:hover .bottom {
 main .trapdoor__button {
   background-color: black;
   color: white;
+  border: solid 1px black;
   font-family: "Varela Round", sans-serif;
   width: 160px;
   height: 30px;
   border-radius: 25px;
   font-size: 13px;
+  font-weight: bold;
 }
 main .trapdoor__button:active {
   transform: scale(0.93);
@@ -111,8 +113,6 @@ main .trapdoor__button:active {
 main .trapdoor__button:hover {
   background-color: white;
   color: black;
-  font-weight: bold;
-  border: solid 1px black;
 }
 main .top {
   top: 0%;

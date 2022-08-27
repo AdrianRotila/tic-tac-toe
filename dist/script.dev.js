@@ -7,6 +7,7 @@ var button = document.querySelector(".reset");
 var endWindow = document.querySelector(".message");
 var endMesaage = document.querySelector(".message--text");
 var resetButton = document.querySelector(".message--button");
+var trapButton = document.querySelector(".trapdoor__button");
 var gridStoredValues = ["", "", "", "", "", "", "", "", ""];
 var X_CLASS = "X";
 var O_CLASS = "O";
@@ -28,18 +29,23 @@ var changeTurn = function changeTurn() {
     gridClassSwap();
     currentPlayer = "X";
   }
+}; // Final window with the result
+
+
+var gameOver = function gameOver() {
+  endWindow.style.opacity = "0.9";
+  resetButton.innerHTML = "Start Again";
+  endWindow.classList.add("show");
 }; // Winning Message
 
 
 var winningMessage = function winningMessage(winner) {
   endMesaage.innerHTML = "Player ".concat(winner, " Wins !");
-  endWindow.classList.add("show");
 }; // Tie Message
 
 
 var tieMessage = function tieMessage() {
   endMesaage.innerHTML = "It's a Tie !";
-  endWindow.classList.add("show");
 }; // Result Check
 
 
@@ -57,15 +63,17 @@ var resultCheck = function resultCheck() {
 
     if (first === second && second === third) {
       winningMessage(first);
+      gameOver();
       break;
     } // Tie & Message
 
 
     if (!gridStoredValues.includes("")) {
       tieMessage();
+      gameOver();
     }
   }
-}; // Swap Hover Turn
+}; // Swap Turn Hover 
 
 
 var gridClassSwap = function gridClassSwap() {
@@ -86,15 +94,33 @@ var resetCellsData = function resetCellsData(cell) {
 }; // Clear the Board
 
 
-resetButton.addEventListener("click", function () {
+var clearBoard = function clearBoard() {
   gridStoredValues = ["", "", "", "", "", "", "", "", ""];
   currentPlayer = "X";
-  gridClassSwap();
   cells.forEach(function (cell) {
     return resetCellsData(cell);
   });
   endWindow.classList.remove("show");
-});
+  grid.classList.remove(O_CLASS);
+  grid.classList.add(X_CLASS);
+}; // Reset Button
+
+
+resetButton.addEventListener("click", function () {
+  return clearBoard();
+}); // Trap Button
+
+trapButton.addEventListener("click", function () {
+  return clearBoard();
+}); // Starting window
+
+var welcomeWindow = function welcomeWindow() {
+  endWindow.style.opacity = "1";
+  endWindow.classList.add("show");
+  endMesaage.innerHTML = "Welcome to My Game";
+  resetButton.innerHTML = "Start Game";
+}; // Commands handler
+
 
 var handleCommand = function handleCommand(clickedCell, index) {
   if (clickedCell.innerHTML === "") {
@@ -105,7 +131,7 @@ var handleCommand = function handleCommand(clickedCell, index) {
 };
 
 var gameStart = function gameStart() {
-  grid.classList.add(X_CLASS);
+  welcomeWindow();
   cells.forEach(function (clickedCell, index) {
     return clickedCell.addEventListener("click", function () {
       return handleCommand(clickedCell, index);
