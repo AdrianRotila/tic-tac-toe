@@ -1,12 +1,17 @@
 // Bring html elements
 const cells = document.querySelectorAll(".grid__cell");
-const board = document.querySelector(".grid");
+const grid = document.querySelector(".grid");
 const button = document.querySelector(".reset");
+const endWindow = document.querySelector(".message");
+const endMesaage = document.querySelector(".message--text");
+const resetButton = document.querySelector(".message--button");
 
 // Empty array to store keep track of the board
-let boardStoredValues = ["", "", "", "", "", "", "", "", ""];
+let gridStoredValues = ["", "", "", "", "", "", "", "", ""];
+
+const X_CLASS = "x";
+const O_CLASS = "o";
 let currentPlayer = "X";
-let gameActive = true;
 
 const winConditions = [
     [0, 1, 2],
@@ -19,93 +24,87 @@ const winConditions = [
     [0, 4, 8],
 ];
 
+
+
 // Update the Array with the value inserted in a cell
 const updateBoard = (index) => {
-    boardStoredValues[index] = currentPlayer;
-    // console.log(boardStoredValues);
+    gridStoredValues[index] = currentPlayer;
 }
 
 // Place the correct mark inside the grid element & change the current player
 const changeTurn = (clickedCell) => {
-    
     if(currentPlayer === "X") {
+        grid.classList.add(O_CLASS);
         clickedCell.innerHTML = currentPlayer;
+        clickedCell.classList.add(O_CLASS);
         currentPlayer = "O";
-        // console.log(currentPlayer);
     } else {
+        grid.classList.remove(O_CLASS);
+        grid.classList.add(X_CLASS);
         clickedCell.innerHTML = currentPlayer;
+        clickedCell.classList.add(X_CLASS);
         currentPlayer = "X";
-        // console.log(currentPlayer);
     }
 }
 
-const resultCheck = () => {
+const winningMessage = (winner) => {
+    endMesaage.innerHTML = `Player ${winner} Wins !`;
+    endWindow.classList.add("show");
+}
 
+const tieMessage = () => {
+    endMesaage.innerHTML = `It's a tie !`
+}
+
+const resultCheck = () => {
     for (let index = 0; index < winConditions.length; index++) {
         const winSubArray = winConditions[index];
-        const first = boardStoredValues[winSubArray[0]];
-        const second = boardStoredValues[winSubArray[1]];
-        const third = boardStoredValues[winSubArray[2]];
+        const first = gridStoredValues[winSubArray[0]];
+        const second = gridStoredValues[winSubArray[1]];
+        const third = gridStoredValues[winSubArray[2]];
 
         // If empty continue
         if(first === "" || second === "" || third === "") {
             continue;
         }
-        // If the entries match break
         if(first === second && second === third) {
             // win message
-            console.log(`Player ${first.toString()} won`);
-
-            // stop inserting values
-            // clear the board and restart the game
-            // clear the stored values
-            // clear the innerhtml
-            gameActive = false;
-            
-            // Clear the board
-            clearBoard();
-          
-            
-
+            winningMessage(first);
             break;
         }
     }
     
     // Tie check
-    if(!boardStoredValues.includes("")){
-        console.log("This is a TIE");
+    if(!gridStoredValues.includes("")){
+        tieMessage();
     }
 }
 
+// Clear Board Function
 const clearBoard = () => {
-    boardStoredValues = ["", "", "", "", "", "", "", "", ""];
-    currentPlayer = "X";
-    button.addEventListener("click", () =>{
-        cells.forEach((cell) => {
-            cell.innerHTML = "";
-        })
+    resetButton.addEventListener("click", () => {
+        gridStoredValues = ["", "", "", "", "", "", "", "", ""];
+        currentPlayer = "X";
+
     })
-    
 }
 
 // Main funtction that takes only one click/cell
-if(gameActive){
-    cells.forEach((clickedCell, index) => {
-        clickedCell.addEventListener("click", () => {
+cells.forEach((clickedCell, index) => {
+    clickedCell.addEventListener("click", () => {
             
-            // Populate the array with values
-            updateBoard(index);
+        // Populate the array with values
+        updateBoard(index);
             
-            // Display and change the turn
-            changeTurn(clickedCell);
+        // Display and change the turn
+        changeTurn(clickedCell);
     
-            // Check if there is a winner
-            resultCheck();
-    
-            
-            
-            
-    
+        // Check if there is a winner
+        resultCheck(); 
+        
+        // Board Reset
+        clearBoard();
         }, {once: true})
     });
-}
+
+

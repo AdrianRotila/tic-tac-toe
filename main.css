@@ -17,7 +17,7 @@ main .title {
   font-family: "Rubik Dirt", cursive;
   font-weight: lighter;
   font-size: 50px;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 main .grid {
   display: grid;
@@ -33,7 +33,7 @@ main .grid {
 main .grid__cell {
   width: 100px;
   height: 100px;
-  border: 1px solid rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,12 +58,22 @@ main .grid__cell:nth-child(3n-2) {
 main .grid__cell:nth-child(n+7) {
   border-bottom: none;
 }
+main .grid__cell.x, main .grid__cell.o {
+  cursor: not-allowed;
+}
+main .grid.x .grid__cell:not(.x):not(.o):hover::before {
+  content: "X";
+  color: lightgrey;
+}
+main .grid.o .grid__cell:not(.x):not(.o):hover::before {
+  content: "O";
+  color: lightgrey;
+}
 
 .message {
   display: none;
   background-color: black;
   opacity: 0.9;
-  transition: 2s;
   position: fixed;
   top: 0;
   left: 0;
@@ -85,7 +95,7 @@ main .grid__cell:nth-child(n+7) {
   cursor: pointer;
   border: none;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 .message--button:active {
   transform: scale(0.93);
