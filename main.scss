@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Varela+Round&display=swap');
 
-
 $game-font: 'Varela Round', sans-serif;
 $title-font: 'Rubik Dirt', cursive;
 
@@ -14,7 +13,8 @@ $title-font: 'Rubik Dirt', cursive;
 // Main Content
 main {
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,6 +48,7 @@ main {
             align-items: center;   
             padding: 40px;
             cursor: pointer;
+            caret-color: transparent;
 
             &--text {
                 opacity: 1;
@@ -90,6 +91,85 @@ main {
         content: "O";
         color: lightgrey;
     }
+
+    .trapdoor {
+        transform: translateZ(0px);
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 250px;
+        height: 50px;
+        box-shadow: inset -7px 0px 12px -8px rgba(0,0,0,0.3), inset 7px 0px 12px -8px rgba(0,0,0,0.3);
+        background: rgba(0,0,0,0.3);
+        transition: background 400ms ease-in-out;
+        
+        &:hover {
+            background: #fff;
+          
+            .door {
+                box-shadow: 0px 0px 10px -2px rgba(0,0,0,0.4);
+                transform: scale(1.08);
+            }
+            .top {
+                top: -50%; 
+            }
+            .bottom {
+                top: 100%; 
+            }
+        }
+        
+        &__button {
+            
+            background-color: black;
+            color: white;
+            font-family: $game-font;
+            width: 160px;
+            height: 30px;
+            border-radius: 25px;
+           
+            font-size: 13px; 
+        }
+
+        &__button:active {
+            transform: scale(0.93);
+        }
+
+        &__button:hover {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            border: solid 1px black;
+        }
+    }
+      
+    .top {
+        top: 0%;
+        left: 0px;
+        
+        &:before {
+            top: 5px;
+        }
+    }
+      
+    .bottom {
+        top: 50%;
+        left: 0px;
+        
+        &:before {
+            top: -20px;
+        }
+    }
+      
+    .door {
+        transition: top 400ms, box-shadow 200ms, transform 300ms;
+        transition-timing-function: ease-in-out;
+        background-color: #fff;
+        position: absolute;
+        overflow: hidden;
+        width: 100%;
+        height: 50%;
+    }
 }
 
 // Winning message
@@ -128,8 +208,8 @@ main {
     &--button:hover {
         background-color: black;
         color: white;
-        border: 3px solid white;
-        font-size: 15px;
+        border: 2px solid white;
+        font-weight: bold;
     }
 }
 
@@ -138,25 +218,28 @@ main {
     display: flex;
 }
 
-
-
 @media screen and (min-width: 768px) { 
-    body{
-        height: 90vh;
-
+    main {
         .title {
             font-size: 75px; 
         }
-        .grid{ 
-            font-size: 90px;
-            font-weight: bold;
-        
-            &__cell {
-                width: 150px;
-                height: 150px;
-            }
+
+        .trapdoor {
+            width: 280px;
         }
     }
+    
+    .message {
+        font-size: 3rem;
+
+        &--button {
+            font-size: 17px;
+            font-family: $game-font;
+            height: 3rem;
+            width: 10rem;
+        }
+    }
+
     
 }
 

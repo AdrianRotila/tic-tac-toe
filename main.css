@@ -7,7 +7,7 @@
 
 main {
   width: 100vw;
-  height: 80vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,6 +40,7 @@ main .grid__cell {
   align-items: center;
   padding: 40px;
   cursor: pointer;
+  caret-color: transparent;
 }
 main .grid__cell--text {
   opacity: 1;
@@ -69,6 +70,72 @@ main .grid.x .grid__cell:not(.x):not(.o):hover::before {
 main .grid.o .grid__cell:not(.x):not(.o):hover::before {
   content: "O";
   color: lightgrey;
+}
+main .trapdoor {
+  transform: translateZ(0px);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 50px;
+  box-shadow: inset -7px 0px 12px -8px rgba(0, 0, 0, 0.3), inset 7px 0px 12px -8px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+  transition: background 400ms ease-in-out;
+}
+main .trapdoor:hover {
+  background: #fff;
+}
+main .trapdoor:hover .door {
+  box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.4);
+  transform: scale(1.08);
+}
+main .trapdoor:hover .top {
+  top: -50%;
+}
+main .trapdoor:hover .bottom {
+  top: 100%;
+}
+main .trapdoor__button {
+  background-color: black;
+  color: white;
+  font-family: "Varela Round", sans-serif;
+  width: 160px;
+  height: 30px;
+  border-radius: 25px;
+  font-size: 13px;
+}
+main .trapdoor__button:active {
+  transform: scale(0.93);
+}
+main .trapdoor__button:hover {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: solid 1px black;
+}
+main .top {
+  top: 0%;
+  left: 0px;
+}
+main .top:before {
+  top: 5px;
+}
+main .bottom {
+  top: 50%;
+  left: 0px;
+}
+main .bottom:before {
+  top: -20px;
+}
+main .door {
+  transition: top 400ms, box-shadow 200ms, transform 300ms;
+  transition-timing-function: ease-in-out;
+  background-color: #fff;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 50%;
 }
 
 .message {
@@ -104,8 +171,8 @@ main .grid.o .grid__cell:not(.x):not(.o):hover::before {
 .message--button:hover {
   background-color: black;
   color: white;
-  border: 3px solid white;
-  font-size: 15px;
+  border: 2px solid white;
+  font-weight: bold;
 }
 
 .message.show {
@@ -113,18 +180,20 @@ main .grid.o .grid__cell:not(.x):not(.o):hover::before {
 }
 
 @media screen and (min-width: 768px) {
-  body {
-    height: 90vh;
-  }
-  body .title {
+  main .title {
     font-size: 75px;
   }
-  body .grid {
-    font-size: 90px;
-    font-weight: bold;
+  main .trapdoor {
+    width: 280px;
   }
-  body .grid__cell {
-    width: 150px;
-    height: 150px;
+
+  .message {
+    font-size: 3rem;
+  }
+  .message--button {
+    font-size: 17px;
+    font-family: "Varela Round", sans-serif;
+    height: 3rem;
+    width: 10rem;
   }
 }
