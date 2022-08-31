@@ -7,7 +7,6 @@ $title-font: 'Rubik Dirt', cursive;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    
 }
 
 // Main Content
@@ -79,9 +78,11 @@ main {
         &__cell.x,
         &__cell.o {
             cursor: not-allowed;
+            
         }
     }
 
+    // Grid Class Hover
     .grid.X .grid__cell:not(.x):not(.o):hover::before {
         content: "X";
         color: lightgrey;
@@ -92,6 +93,7 @@ main {
         color: lightgrey;
     }
 
+    // Trap Door
     .trapdoor {
         transform: translateZ(0px);
         -webkit-font-smoothing: antialiased;
@@ -186,6 +188,8 @@ main {
     color: white;
     font-family: $title-font;
     font-size: 2rem;
+    caret-color: transparent;
+    cursor: pointer;
 
     &--button {
         border-radius: 20px;
@@ -211,7 +215,7 @@ main {
     }
 }
 
-// Show winning message when win
+// Show winning message when start/result
 .message.show {
     display: flex;
 }
@@ -236,9 +240,7 @@ main {
             height: 3rem;
             width: 10rem;
         }
-    }
-
-    
+    } 
 }
 
 
