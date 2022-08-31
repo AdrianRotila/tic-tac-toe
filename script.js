@@ -3,15 +3,18 @@ const cells = document.querySelectorAll(".grid__cell");
 const grid = document.querySelector(".grid");
 const button = document.querySelector(".reset");
 const endWindow = document.querySelector(".message");
-const endMesaage = document.querySelector(".message--text");
+const endMessage = document.querySelector(".message--text");
 const resetButton = document.querySelector(".message--button");
 const trapButton = document.querySelector(".trapdoor__button");
 
 // Sound Elements
-const selectSound = new Audio("./audio/click-sound.wav");
+const selectAudio = new Audio("./audio/click-sound.wav");
 const negativeAudio = new Audio("./audio/not-allowed.wav");
 const winAudio = new Audio("./audio/win.wav");
 const lostAudio = new Audio("./audio/lose.wav");
+const cleanAudio = new Audio("./audio/clear-board.wav");
+const startAudio = new Audio("./audio/start.wav");
+
 
 
 let gridStoredValues = ["", "", "", "", "", "", "", "", ""];
@@ -35,7 +38,7 @@ const winConditions = [
 const welcomeWindow = () => {
     endWindow.style.opacity = "1";
     endWindow.classList.add("show");
-    endMesaage.innerHTML = "Tic-Tac-Toe"
+    endMessage.innerHTML = "Tic-Tac-Toe"
     resetButton.innerHTML = "Start Game";
 }
 
@@ -49,12 +52,12 @@ const gameOver = () => {
 // Winning Message
 const winningMessage = (winner) => {
     winAudio.play();
-    endMesaage.innerHTML = `Player ${winner} Wins !`;
+    endMessage.innerHTML = `Player ${winner} Wins !`;
 }
 
 // Tie Message
 const tieMessage = () => {
-    endMesaage.innerHTML = `It's a Tie !`
+    endMessage.innerHTML = `It's a Tie !`
 }
 
 // Swap Turn Hover 
@@ -79,7 +82,7 @@ const resetCellsData = (cell) => {
 const clearBoard = () => {
     gridStoredValues = ["", "", "", "", "", "", "", "", ""];
     currentPlayer = "X";
-    
+
     cells.forEach((cell) => resetCellsData(cell));
 
     endWindow.classList.remove("show")
@@ -89,10 +92,22 @@ const clearBoard = () => {
 }
 
 // Reset Button
-resetButton.addEventListener("click", () => clearBoard());
+resetButton.addEventListener("click", () => {
+    if(resetButton.innerHTML === "Start Game") {
+        startAudio.play();
+    }
+    clearBoard();
+});
 
 // Trap Button
-trapButton.addEventListener("click", () => clearBoard());
+trapButton.addEventListener("click", () => {
+    if(gridStoredValues.every(value => value === "")){
+        negativeAudio.play();
+    } else {
+        cleanAudio.play();
+        clearBoard();
+    } 
+});
 
 // Cells Value and Cells Classes Handling
 const updateBoard = (clickedCell, index) => {
@@ -111,7 +126,6 @@ const changeTurn = () => {
         currentPlayer = "X";
     }
 }
-
 
 // Result Check
 const resultCheck = () => {
@@ -141,7 +155,7 @@ const resultCheck = () => {
 // Commands handler
 const handleCommand = (clickedCell, index) => {
     if(clickedCell.innerHTML === ""){
-        selectSound.play();
+        selectAudio.play();
         updateBoard(clickedCell, index);           
         changeTurn();   
         resultCheck(); 
@@ -150,6 +164,7 @@ const handleCommand = (clickedCell, index) => {
     }
 }
 
+// Game Start Function
 const gameStart = () => {
     welcomeWindow();
     cells.forEach((clickedCell, index) => 

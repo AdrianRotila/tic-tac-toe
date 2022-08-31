@@ -5,14 +5,16 @@ var cells = document.querySelectorAll(".grid__cell");
 var grid = document.querySelector(".grid");
 var button = document.querySelector(".reset");
 var endWindow = document.querySelector(".message");
-var endMesaage = document.querySelector(".message--text");
+var endMessage = document.querySelector(".message--text");
 var resetButton = document.querySelector(".message--button");
 var trapButton = document.querySelector(".trapdoor__button"); // Sound Elements
 
-var selectSound = new Audio("./audio/click-sound.wav");
+var selectAudio = new Audio("./audio/click-sound.wav");
 var negativeAudio = new Audio("./audio/not-allowed.wav");
 var winAudio = new Audio("./audio/win.wav");
 var lostAudio = new Audio("./audio/lose.wav");
+var cleanAudio = new Audio("./audio/clear-board.wav");
+var startAudio = new Audio("./audio/start.wav");
 var gridStoredValues = ["", "", "", "", "", "", "", "", ""];
 var X_CLASS = "X";
 var O_CLASS = "O";
@@ -22,7 +24,7 @@ var winConditions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [2, 5, 8], [1, 
 var welcomeWindow = function welcomeWindow() {
   endWindow.style.opacity = "1";
   endWindow.classList.add("show");
-  endMesaage.innerHTML = "Tic-Tac-Toe";
+  endMessage.innerHTML = "Tic-Tac-Toe";
   resetButton.innerHTML = "Start Game";
 }; // Final window with the result
 
@@ -36,12 +38,12 @@ var gameOver = function gameOver() {
 
 var winningMessage = function winningMessage(winner) {
   winAudio.play();
-  endMesaage.innerHTML = "Player ".concat(winner, " Wins !");
+  endMessage.innerHTML = "Player ".concat(winner, " Wins !");
 }; // Tie Message
 
 
 var tieMessage = function tieMessage() {
-  endMesaage.innerHTML = "It's a Tie !";
+  endMessage.innerHTML = "It's a Tie !";
 }; // Swap Turn Hover 
 
 
@@ -76,11 +78,22 @@ var clearBoard = function clearBoard() {
 
 
 resetButton.addEventListener("click", function () {
-  return clearBoard();
+  if (resetButton.innerHTML === "Start Game") {
+    startAudio.play();
+  }
+
+  clearBoard();
 }); // Trap Button
 
 trapButton.addEventListener("click", function () {
-  return clearBoard();
+  if (gridStoredValues.every(function (value) {
+    return value === "";
+  })) {
+    negativeAudio.play();
+  } else {
+    cleanAudio.play();
+    clearBoard();
+  }
 }); // Cells Value and Cells Classes Handling
 
 var updateBoard = function updateBoard(clickedCell, index) {
@@ -130,14 +143,15 @@ var resultCheck = function resultCheck() {
 
 var handleCommand = function handleCommand(clickedCell, index) {
   if (clickedCell.innerHTML === "") {
-    selectSound.play();
+    selectAudio.play();
     updateBoard(clickedCell, index);
     changeTurn();
     resultCheck();
   } else {
     negativeAudio.play();
   }
-};
+}; // Game Start Function
+
 
 var gameStart = function gameStart() {
   welcomeWindow();
