@@ -16,7 +16,6 @@ const cleanAudio = new Audio("./audio/clear-board.wav");
 const startAudio = new Audio("./audio/start.wav");
 
 
-
 let gridStoredValues = ["", "", "", "", "", "", "", "", ""];
 
 const X_CLASS = "X";
@@ -101,12 +100,12 @@ resetButton.addEventListener("click", () => {
 
 // Trap Button
 trapButton.addEventListener("click", () => {
-    if(gridStoredValues.every(value => value === "")){
+    if(gridStoredValues.every(cell => cell === "")){
         negativeAudio.play();
     } else {
         cleanAudio.play();
         clearBoard();
-    } 
+    }
 });
 
 // Cells Value and Cells Classes Handling
@@ -151,6 +150,7 @@ const resultCheck = () => {
         }
     } 
 }
+
 
 // Commands handler
 const handleCommand = (clickedCell, index) => {

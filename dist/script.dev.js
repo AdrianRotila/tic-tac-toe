@@ -86,8 +86,8 @@ resetButton.addEventListener("click", function () {
 }); // Trap Button
 
 trapButton.addEventListener("click", function () {
-  if (gridStoredValues.every(function (value) {
-    return value === "";
+  if (gridStoredValues.every(function (cell) {
+    return cell === "";
   })) {
     negativeAudio.play();
   } else {
