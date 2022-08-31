@@ -153,6 +153,8 @@ main .door {
   color: white;
   font-family: "Rubik Dirt", cursive;
   font-size: 2rem;
+  caret-color: transparent;
+  cursor: pointer;
 }
 .message--button {
   border-radius: 20px;

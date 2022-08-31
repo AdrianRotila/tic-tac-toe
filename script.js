@@ -1,4 +1,4 @@
-// Bring html elements
+// HTML Elements
 const cells = document.querySelectorAll(".grid__cell");
 const grid = document.querySelector(".grid");
 const button = document.querySelector(".reset");
@@ -6,6 +6,13 @@ const endWindow = document.querySelector(".message");
 const endMesaage = document.querySelector(".message--text");
 const resetButton = document.querySelector(".message--button");
 const trapButton = document.querySelector(".trapdoor__button");
+
+// Sound Elements
+const selectSound = new Audio("./audio/click-sound.wav");
+const negativeAudio = new Audio("./audio/not-allowed.wav");
+const winAudio = new Audio("./audio/win.wav");
+const lostAudio = new Audio("./audio/lose.wav");
+
 
 let gridStoredValues = ["", "", "", "", "", "", "", "", ""];
 
@@ -24,22 +31,12 @@ const winConditions = [
     [0, 4, 8],
 ];
 
-// Cells Value and Cells Classes Handling
-const updateBoard = (clickedCell, index) => {
-    gridStoredValues[index] = currentPlayer;
-    clickedCell.innerHTML = currentPlayer;
-    clickedCell.classList.add(currentPlayer);
-}
-
-// Turn Swapping
-const changeTurn = () => {
-    if(currentPlayer === "X") {
-        gridClassSwap();
-        currentPlayer = "O";
-    } else {
-        gridClassSwap();
-        currentPlayer = "X";
-    }
+// Starting window
+const welcomeWindow = () => {
+    endWindow.style.opacity = "1";
+    endWindow.classList.add("show");
+    endMesaage.innerHTML = "Tic-Tac-Toe"
+    resetButton.innerHTML = "Start Game";
 }
 
 // Final window with the result
@@ -51,38 +48,13 @@ const gameOver = () => {
 
 // Winning Message
 const winningMessage = (winner) => {
+    winAudio.play();
     endMesaage.innerHTML = `Player ${winner} Wins !`;
 }
 
 // Tie Message
 const tieMessage = () => {
     endMesaage.innerHTML = `It's a Tie !`
-}
-
-// Result Check
-const resultCheck = () => {
-    for (index in winConditions) {
-        const winSubArray = winConditions[index];
-        const first = gridStoredValues[winSubArray[0]];
-        const second = gridStoredValues[winSubArray[1]];
-        const third = gridStoredValues[winSubArray[2]];
-        // Check if empty
-        if(first === "" || second === "" || third === "") {
-            continue;
-        }
-        // Win & Message
-        if(first === second && second === third) {
-            winningMessage(first);
-            gameOver();
-            break;
-        }
-        // Tie & Message
-        if(!gridStoredValues.includes("")){
-            tieMessage();
-            gameOver();
-        }
-    }
-    
 }
 
 // Swap Turn Hover 
@@ -122,22 +94,59 @@ resetButton.addEventListener("click", () => clearBoard());
 // Trap Button
 trapButton.addEventListener("click", () => clearBoard());
 
-// Starting window
-const welcomeWindow = () => {
-    endWindow.style.opacity = "1";
-    endWindow.classList.add("show");
-    endMesaage.innerHTML = "Welcome to My Game"
-    resetButton.innerHTML = "Start Game";
+// Cells Value and Cells Classes Handling
+const updateBoard = (clickedCell, index) => {
+    gridStoredValues[index] = currentPlayer;
+    clickedCell.innerHTML = currentPlayer;
+    clickedCell.classList.add(currentPlayer);
 }
 
+// Turn Swapping
+const changeTurn = () => {
+    if(currentPlayer === "X") {
+        gridClassSwap();
+        currentPlayer = "O";
+    } else {
+        gridClassSwap();
+        currentPlayer = "X";
+    }
+}
+
+// Result Check
+const resultCheck = () => {
+    for (index in winConditions) {
+        const winSubArray = winConditions[index];
+        const first = gridStoredValues[winSubArray[0]];
+        const second = gridStoredValues[winSubArray[1]];
+        const third = gridStoredValues[winSubArray[2]];
+        // Check if empty
+        if(first === "" || second === "" || third === "") {
+            continue;
+        }
+        // Win & Message
+        if(first === second && second === third) {
+            winningMessage(first);
+            gameOver();
+            break;
+        }
+        // Tie & Message
+        if(!gridStoredValues.includes("")){
+            tieMessage();
+            gameOver();
+        }
+    } 
+}
 
 // Commands handler
 const handleCommand = (clickedCell, index) => {
     if(clickedCell.innerHTML === ""){
+        selectSound.play();
         updateBoard(clickedCell, index);           
         changeTurn();   
         resultCheck(); 
-    }   
+    } else {
+        negativeAudio.play();
+    }
 }
 
 const gameStart = () => {
