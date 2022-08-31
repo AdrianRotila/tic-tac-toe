@@ -112,6 +112,7 @@ const changeTurn = () => {
     }
 }
 
+
 // Result Check
 const resultCheck = () => {
     for (index in winConditions) {
