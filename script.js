@@ -151,9 +151,8 @@ const resultCheck = () => {
     } 
 }
 
-
 // Commands handler
-const handleCommand = (clickedCell, index) => {
+const handleCommands = (clickedCell, index) => {
     if(clickedCell.innerHTML === ""){
         selectAudio.play();
         updateBoard(clickedCell, index);           
@@ -168,9 +167,11 @@ const handleCommand = (clickedCell, index) => {
 const gameStart = () => {
     welcomeWindow();
     cells.forEach((clickedCell, index) => 
-        clickedCell.addEventListener("click", () => handleCommand(clickedCell, index)));
+        clickedCell.addEventListener("click", () => {
+            handleCommands(clickedCell, index);
+    }));
 }
-
+    
 gameStart();
 
 

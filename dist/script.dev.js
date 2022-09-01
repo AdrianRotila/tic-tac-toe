@@ -141,7 +141,7 @@ var resultCheck = function resultCheck() {
 }; // Commands handler
 
 
-var handleCommand = function handleCommand(clickedCell, index) {
+var handleCommands = function handleCommands(clickedCell, index) {
   if (clickedCell.innerHTML === "") {
     selectAudio.play();
     updateBoard(clickedCell, index);
@@ -157,7 +157,7 @@ var gameStart = function gameStart() {
   welcomeWindow();
   cells.forEach(function (clickedCell, index) {
     return clickedCell.addEventListener("click", function () {
-      return handleCommand(clickedCell, index);
+      handleCommands(clickedCell, index);
     });
   });
 };
